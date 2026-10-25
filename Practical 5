@@ -1,0 +1,99 @@
+#include <stdio.h>
+#define MAX 100
+
+int queue[MAX];
+int front = 0, rear = -1, count = 0;
+
+void insert()
+{
+    int x;
+
+    if (count == MAX)
+    {
+        printf("Queue Overflow\n");
+        return;
+    }
+
+    printf("Enter element: ");
+    scanf("%d", &x);
+
+    rear = (rear + 1) % MAX;
+    queue[rear] = x;
+    count++;
+}
+
+void delete()
+{
+    if (count == 0)
+    {
+        printf("Queue Underflow\n");
+        return;
+    }
+
+    printf("Deleted element: %d\n", queue[front]);
+
+    front = (front + 1) % MAX;
+    count--;
+}
+
+void display()
+{
+    int i;
+
+    if (count == 0)
+    {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    printf("Queue elements: ");
+
+    for (i = 0; i < count; i++)
+        printf("%d ", queue[(front + i) % MAX]);
+
+    printf("\n");
+}
+
+int main()
+{
+    int ch;
+
+    do
+    {
+        printf("\n1.INSERT  2.DELETE  3.DISPLAY  4.EXIT");
+        printf("\nEnter choice: ");
+        scanf("%d", &ch);
+
+        switch (ch)
+        {
+            case 1: insert(); break;
+            case 2: delete(); break;
+            case 3: display(); break;
+            case 4: break;
+            default: printf("Invalid choice\n");
+        }
+    } while (ch != 4);
+
+    return 0;
+}
+
+output 
+
+1.INSERT  2.DELETE  3.DISPLAY  4.EXIT
+Enter choice: 1
+Enter element: 10
+
+Enter choice: 1
+Enter element: 20
+
+Enter choice: 1
+Enter element: 30
+
+Enter choice: 3
+Queue elements: 10 20 30
+
+Enter choice: 2
+Deleted element: 10
+
+Enter choice: 3
+Queue elements: 20 30
