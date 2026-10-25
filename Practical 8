@@ -1,0 +1,281 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int info;
+    struct node *prev, *next;
+};
+
+struct node* start = NULL;
+
+void traverse() {
+    struct node* temp = start;
+
+    if (start == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    printf("Doubly Linked List: ");
+
+    while (temp != NULL) {
+        printf("%d <-> ", temp->info);
+        temp = temp->next;
+    }
+
+    printf("NULL\n");
+}
+
+void insertAtFront() {
+    int data;
+    struct node* temp =
+        (struct node*)malloc(sizeof(struct node));
+
+    printf("Enter number to be inserted: ");
+    scanf("%d", &data);
+
+    temp->info = data;
+    temp->prev = NULL;
+    temp->next = start;
+
+    if (start != NULL)
+        start->prev = temp;
+
+    start = temp;
+}
+
+void insertAtEnd() {
+    int data;
+
+    struct node* temp =
+        (struct node*)malloc(sizeof(struct node));
+
+    temp->info = data = 0;
+
+    printf("Enter number to be inserted: ");
+    scanf("%d", &data);
+
+    temp->info = data;
+    temp->next = NULL;
+
+    if (start == NULL) {
+        temp->prev = NULL;
+        start = temp;
+        return;
+    }
+
+    struct node* trav = start;
+
+    while (trav->next != NULL)
+        trav = trav->next;
+
+    trav->next = temp;
+    temp->prev = trav;
+}
+
+void insertAtPosition() {
+    int data, pos;
+
+    printf("Enter position: ");
+    scanf("%d", &pos);
+
+    printf("Enter number to be inserted: ");
+    scanf("%d", &data);
+
+    if (pos < 1) {
+        printf("Invalid position\n");
+        return;
+    }
+
+    if (pos == 1) {
+        struct node* temp =
+            (struct node*)malloc(sizeof(struct node));
+
+        temp->info = data;
+        temp->prev = NULL;
+        temp->next = start;
+
+        if (start != NULL)
+            start->prev = temp;
+
+        start = temp;
+        return;
+    }
+
+    struct node* temp = start;
+
+    for (int i = 1; i < pos - 1 && temp != NULL; i++)
+        temp = temp->next;
+
+    if (temp == NULL) {
+        printf("Invalid position\n");
+        return;
+    }
+
+    struct node* newnode =
+        (struct node*)malloc(sizeof(struct node));
+
+    newnode->info = data;
+    newnode->next = temp->next;
+    newnode->prev = temp;
+
+    if (temp->next != NULL)
+        temp->next->prev = newnode;
+
+    temp->next = newnode;
+}
+
+void deleteFirst() {
+    if (start == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    struct node* temp = start;
+    start = start->next;
+
+    if (start != NULL)
+        start->prev = NULL;
+
+    free(temp);
+}
+
+void deleteEnd() {
+    if (start == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    struct node* temp = start;
+
+    if (start->next == NULL) {
+        start = NULL;
+        free(temp);
+        return;
+    }
+
+    while (temp->next != NULL)
+        temp = temp->next;
+
+    temp->prev->next = NULL;
+    free(temp);
+}
+
+void deletePosition() {
+    int pos;
+
+    printf("Enter position to delete: ");
+    scanf("%d", &pos);
+
+    if (pos < 1 || start == NULL) {
+        printf("Invalid position or empty list\n");
+        return;
+    }
+
+    struct node* temp = start;
+
+    if (pos == 1) {
+        deleteFirst();
+        return;
+    }
+
+    for (int i = 1; i < pos && temp != NULL; i++)
+        temp = temp->next;
+
+    if (temp == NULL) {
+        printf("Position out of bounds\n");
+        return;
+    }
+
+    temp->prev->next = temp->next;
+
+    if (temp->next != NULL)
+        temp->next->prev = temp->prev;
+
+    free(temp);
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n1. Display List");
+        printf("\n2. Insert at Beginning");
+        printf("\n3. Insert at End");
+        printf("\n4. Insert at Position");
+        printf("\n5. Delete First");
+        printf("\n6. Delete Last");
+        printf("\n7. Delete at Position");
+        printf("\n8. Exit");
+        printf("\nEnter Choice: ");
+
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                traverse();
+                break;
+
+            case 2:
+                insertAtFront();
+                break;
+
+            case 3:
+                insertAtEnd();
+                break;
+
+            case 4:
+                insertAtPosition();
+                break;
+
+            case 5:
+                deleteFirst();
+                break;
+
+            case 6:
+                deleteEnd();
+                break;
+
+            case 7:
+                deletePosition();
+                break;
+
+            case 8:
+                return 0;
+
+            default:
+                printf("Incorrect Choice\n");
+        }
+    }
+}
+
+output 
+
+1. Display List
+2. Insert at Beginning
+3. Insert at End
+4. Insert at Position
+5. Delete First
+6. Delete Last
+7. Delete at Position
+8. Exit
+
+Enter Choice: 2
+Enter number to be inserted: 10
+
+Enter Choice: 3
+Enter number to be inserted: 20
+
+Enter Choice: 4
+Enter position: 2
+Enter number to be inserted: 15
+
+Enter Choice: 1
+Doubly Linked List: 10 <-> 15 <-> 20 <-> NULL
+
+Enter Choice: 5
+
+Enter Choice: 1
+Doubly Linked List: 15 <-> 20 <-> NULL
+
+Enter Choice: 8
