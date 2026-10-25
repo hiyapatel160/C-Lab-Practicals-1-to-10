@@ -1,0 +1,36 @@
+# C-Lab-Practicals-1-to-10
+#include <stdio.h>
+
+void callByValue(int x) {
+    x = 100;
+    printf("Inside callByValue: x = %d\n", x);
+}
+
+void callByReference(int *x) {
+    *x = 100;
+    printf("Inside callByReference: *x = %d\n", *x);
+}
+
+int main(void) {
+    int a = 10, b = 10;
+
+    printf("Before callByValue: a = %d\n", a);
+    callByValue(a);
+    printf("After callByValue: a = %d\n", a);
+
+    printf("\nBefore callByReference: b = %d\n", b);
+    callByReference(&b);
+    printf("After callByReference: b = %d\n", b);
+
+    return 0;
+}
+
+output :
+
+Before callByValue: a = 10
+Inside callByValue: x = 100
+After callByValue: a = 10
+
+Before callByReference: b = 10
+Inside callByReference: *x = 100
+After callByReference: b = 100
