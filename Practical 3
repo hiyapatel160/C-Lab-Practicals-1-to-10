@@ -1,0 +1,118 @@
+#include <stdio.h>
+#define MAX 100
+
+int stack[MAX];
+int top = -1;
+
+void push()
+{
+    int x;
+
+    if (top == MAX - 1)
+        printf("Stack Overflow\n");
+    else
+    {
+        printf("Enter element: ");
+        scanf("%d", &x);
+        stack[++top] = x;
+    }
+}
+
+void pop()
+{
+    if (top == -1)
+        printf("Stack Underflow\n");
+    else
+        printf("Deleted element: %d\n", stack[top--]);
+}
+
+void peep()
+{
+    int pos;
+
+    printf("Enter position from top: ");
+    scanf("%d", &pos);
+
+    if (pos < 1 || pos > top + 1)
+        printf("Invalid position\n");
+    else
+        printf("Element: %d\n", stack[top - pos + 1]);
+}
+
+void change()
+{
+    int pos, x;
+
+    printf("Enter position and new value: ");
+    scanf("%d%d", &pos, &x);
+
+    if (pos < 1 || pos > top + 1)
+        printf("Invalid position\n");
+    else
+        stack[top - pos + 1] = x;
+}
+
+void display()
+{
+    int i;
+
+    if (top == -1)
+        printf("Stack is empty\n");
+    else
+    {
+        printf("Stack elements: ");
+
+        for (i = top; i >= 0; i--)
+            printf("%d ", stack[i]);
+
+        printf("\n");
+    }
+}
+
+int main()
+{
+    int ch;
+
+    do
+    {
+        printf("\n1.PUSH  2.POP  3.PEEP");
+        printf("\n4.CHANGE  5.DISPLAY  6.EXIT");
+        printf("\nEnter choice: ");
+        scanf("%d", &ch);
+
+        switch (ch)
+        {
+            case 1: push(); break;
+            case 2: pop(); break;
+            case 3: peep(); break;
+            case 4: change(); break;
+            case 5: display(); break;
+            case 6: break;
+            default: printf("Invalid choice\n");
+        }
+    } while (ch != 6);
+
+    return 0;
+}
+
+output 
+1.PUSH  2.POP  3.PEEP
+4.CHANGE  5.DISPLAY  6.EXIT
+Enter choice: 1
+Enter element: 10
+
+Enter choice: 1
+Enter element: 20
+
+Enter choice: 5
+Stack elements: 20 10
+
+Enter choice: 3
+Enter position from top: 1
+Element: 20
+
+Enter choice: 2
+Deleted element: 20
+
+Enter choice: 5
+Stack elements: 10
