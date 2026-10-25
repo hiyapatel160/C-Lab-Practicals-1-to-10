@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <ctype.h>
+#define MAX 200
+
+int precedence(char c) {
+    if (c == '^') return 3;
+    if (c == '*' || c == '/' || c == '%') return 2;
+    if (c == '+' || c == '-') return 1;
+    return 0;
+}
+
+int main(void) {
+    char infix[MAX], stack[MAX], postfix[MAX];
+    int top = -1, j = 0, i;
+    printf("Enter infix expression (single-letter/digit operands): ");
+    scanf("%199s", infix);
+
+    for (i = 0; infix[i] != '\0'; i++) {
+        char c = infix[i];
+        if (isalnum((unsigned char)c)) postfix[j++] = c;
+        else if (c == '(') stack[++top] = c;
+        else if (c == ')') {
+            while (top >= 0 && stack[top] != '(') postfix[j++] = stack[top--];
+            if (top >= 0) top--;
+        } else {
+            while (top >= 0 && stack[top] != '(' &&
+                  (precedence(stack[top]) > precedence(c) ||
+                  (precedence(stack[top]) == precedence(c) && c != '^')))
+                postfix[j++] = stack[top--];
+            stack[++top] = c;
+        }
+    }
+    while (top >= 0) {
+        if (stack[top] != '(') postfix[j++] = stack[top];
+        top--;
+    }
+    postfix[j] = '\0';
+    printf("Postfix expression: %s\n", postfix);
+    return 0;
+}
+
+output:
+Enter infix expression (single-letter/digit operands): A+BC
+Postfix expression: ABC+
